@@ -3,6 +3,18 @@ provider:
   name: aws
   runtime: nodejs10.x
   region: ap-northeast-1
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}*'
 functions:
   hello:
     handler: handler.hello
@@ -13,10 +25,10 @@ functions:
           cors: true
 resources:
   Resources:
-    SampleTodo:
+    Todo:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: SampleTodo
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}-todo
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
