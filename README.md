@@ -27,3 +27,19 @@ module.exports.hello = serverless(app);
   }
 }
 ```
+
+```yml:serverless.yml
+service: serverless-sample
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ap-northeast-1
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: /{ANY+}
+          method: ANY
+          cors: true
+```
