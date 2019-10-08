@@ -9,6 +9,23 @@ app.get('/hello', (req, res) => {
   res.send('Hello');
 });
 
+app.get('/todo', async (req, res, next) => {
+  const params = {
+    TableName: 'serverless-sample-dev-todo',
+  };
+  try {
+    const result = await dynamo
+      .scan(params, error => {
+        if (error) throw new Error(error.stack);
+      })
+      .promise();
+    res.send(result.Items);
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
 app.post('/todo', async (req, res, next) => {
   const params = {
     TableName: 'serverless-sample-dev-todo',
