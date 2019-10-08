@@ -11,3 +11,18 @@ functions:
           path: /{ANY+}
           method: ANY
           cors: true
+resources:
+  Resources:
+    SampleTodo:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: SampleTodo
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
