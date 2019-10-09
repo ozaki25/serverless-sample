@@ -1,9 +1,12 @@
 const serverless = require('serverless-http');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 const AWS = require('aws-sdk');
 const dynamo = new AWS.DynamoDB.DocumentClient();
+
+app.use(cors());
 
 app.get('/hello', (req, res) => {
   res.send('Hello');
