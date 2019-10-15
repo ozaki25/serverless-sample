@@ -1,6 +1,7 @@
 const serverless = require('serverless-http');
 const express = require('express');
 const cors = require('cors');
+const uuid = require('uuid/v4');
 const app = express();
 
 const AWS = require('aws-sdk');
@@ -33,7 +34,7 @@ app.post('/todo', async (req, res, next) => {
   const params = {
     TableName: 'serverless-sample-dev-todo',
     Item: {
-      id: String(Date.now()),
+      id: uuid(),
       text: 'TODOです',
     },
   };
